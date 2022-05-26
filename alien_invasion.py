@@ -56,7 +56,7 @@ class AlienInvasion:
         """ 响应键盘和鼠标事件"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self._end_game()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -144,7 +144,7 @@ class AlienInvasion:
             self.settings.increase_speed()
 
             # 提高等级
-            self.stats.level +=1
+            self.stats.level += 1
             self.sb.prep_level()
 
     def _update_aliens(self):
@@ -236,6 +236,11 @@ class AlienInvasion:
             if alien.rect.bottom >= screen_rect.bottom:
                 self._ship_hit()
                 break
+
+    def _end_game(self):
+        """保存最高分数记录并关闭游戏"""
+        self.stats.save_high_score()
+        sys.exit()
 
 if __name__ == '__main__':
     # 创建游戏实例并运行游戏
